@@ -6,25 +6,97 @@
     <title>Unity Web Player | KimlikHirsizligi</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
-    <link rel="stylesheet" href="custom-style.css">
-    
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #232526 0%, #414345 100%);
+        font-family: 'Segoe UI', Arial, sans-serif;
+        color: #f5f5f5;
+        min-height: 100vh;
+      }
+      #unity-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
+      #unity-canvas {
+        border-radius: 18px;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        border: 2px solid #444;
+        background: #222;
+        margin-bottom: 24px;
+      }
+      #unity-footer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        margin-top: 16px;
+        padding: 8px 0;
+        background: rgba(30, 30, 30, 0.7);
+        border-radius: 12px;
+        width: 100%;
+        max-width: 1280px;
+      }
+      #unity-build-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        color: #fff;
+      }
+      #unity-loading-bar {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 320px;
+        background: rgba(40,40,40,0.85);
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        z-index: 10;
+      }
+      #unity-progress-bar-empty {
+        width: 100%;
+        height: 16px;
+        background: #333;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-top: 12px;
+      }
+      #unity-progress-bar-full {
+        height: 100%;
+        background: linear-gradient(90deg, #00c6ff 0%, #0072ff 100%);
+        border-radius: 8px;
+        transition: width 0.3s;
+      }
+      #unity-warning > div {
+        margin: 8px 0;
+        border-radius: 8px;
+        font-weight: 500;
+        text-align: center;
+      }
+    </style>
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
-      <div id="unity-inner">
-        <canvas id="unity-canvas" width=1280 height=720 tabindex="-1"></canvas>
-        <div id="unity-loading-bar">
-          <div id="unity-logo"></div>
-          <div id="unity-progress-bar-empty">
-            <div id="unity-progress-bar-full"></div>
-          </div>
+      <canvas id="unity-canvas" width=1280 height=720 tabindex="-1"></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
         </div>
-        <div id="unity-warning"> </div>
-        <div id="unity-footer">
-          <div id="unity-logo-title-footer"></div>
-          <div id="unity-fullscreen-button"></div>
-          <div id="unity-build-title">KimlikHirsizligi</div>
-        </div>
+      </div>
+      <div id="unity-warning"> </div>
+      <div id="unity-footer">
+        <div id="unity-logo-title-footer"></div>
+        <div id="unity-build-title">KimlikHirsizligi</div>
       </div>
     </div>
     <script>
@@ -56,12 +128,12 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/kimlik15.loader.js";
+      var loaderUrl = buildUrl + "/kimlik4.0.loader.js";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/kimlik15.data",
-        frameworkUrl: buildUrl + "/kimlik15.framework.js",
-        codeUrl: buildUrl + "/kimlik15.wasm",
+        dataUrl: buildUrl + "/kimlik4.0.data",
+        frameworkUrl: buildUrl + "/kimlik4.0.framework.js",
+        codeUrl: buildUrl + "/kimlik4.0.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "SamanGames",
         productName: "KimlikHirsizligi",
@@ -115,9 +187,6 @@
           document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
               }).then((unityInstance) => {
                 document.querySelector("#unity-loading-bar").style.display = "none";
-                document.querySelector("#unity-fullscreen-button").onclick = () => {
-                  unityInstance.SetFullscreen(1);
-                };
 
               }).catch((message) => {
                 alert(message);
